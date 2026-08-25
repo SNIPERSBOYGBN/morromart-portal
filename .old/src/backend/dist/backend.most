@@ -1,0 +1,238 @@
+// Version: 4.0.0
+type AnnouncementId__365153885 = Nat;
+type AnnouncementId__528233301 = Nat;
+type AnnouncementType__601539309 = {#error; #info; #other; #warning};
+type AnnouncementType__828365556 = {#error; #info; #other; #warning};
+type Announcement__160704614 =
+  {
+    active : Bool;
+    announcementType : AnnouncementType__828365556;
+    color : ?Text;
+    createdAt : Timestamp__301639476;
+    icon : ?Text;
+    id : AnnouncementId__365153885;
+    message : Text;
+    title : Text
+  };
+type Announcement__862340731 =
+  {
+    active : Bool;
+    announcementType : AnnouncementType__601539309;
+    color : ?Text;
+    createdAt : Timestamp__847320355;
+    icon : ?Text;
+    id : AnnouncementId__528233301;
+    message : Text;
+    title : Text
+  };
+type ApplicationId__667049859 = Nat;
+type ApplicationId__702901380 = Nat;
+type ApplicationStatus__289152660 =
+  {#accepted; #pendingReview; #rejected; #underReview};
+type ApplicationStatus__433552585 =
+  {#accepted; #pendingReview; #rejected; #underReview};
+type Application__602343233 =
+  {
+    applicantDiscordId : DiscordId__538665335;
+    applicantId : UserId__58594049;
+    feedback : ?Text;
+    id : ApplicationId__667049859;
+    internalNotes : ?Text;
+    positionId : PositionId__905036791;
+    responses : [Text];
+    status : ApplicationStatus__433552585;
+    submittedAt : Timestamp__847320355
+  };
+type Application__678882009 =
+  {
+    applicantDiscordId : DiscordId__964032398;
+    applicantId : UserId__158757552;
+    feedback : ?Text;
+    id : ApplicationId__702901380;
+    internalNotes : ?Text;
+    positionId : PositionId__406149913;
+    responses : [Text];
+    status : ApplicationStatus__289152660;
+    submittedAt : Timestamp__301639476
+  };
+type Counters__298268926 =
+  {
+    var nextAnnouncementId : Nat;
+    var nextApplicationId : Nat;
+    var nextDepartmentId : Nat;
+    var nextPositionId : Nat
+  };
+type Data__265875254<K, V> = {var count : Nat__58649523; kvs : [var ?(K, V)]};
+type DepartmentId__275990220 = Nat;
+type DepartmentId__601640060 = Nat;
+type Department__198760812 =
+  {description : Text; id : DepartmentId__275990220; name : Text};
+type Department__439167630 =
+  {description : Text; id : DepartmentId__601640060; name : Text};
+type DiscordId__538665335 = Text;
+type DiscordId__964032398 = Text;
+type Internal__161573640<K, V> =
+  {children : [var ?Node__430031793<K, V>]; data : Data__265875254<K, V>};
+type Leaf__1045638083<K, V> = {data : Data__265875254<K, V>};
+type Map__13625999<K, V> =
+  {var root : Node__430031793<K, V>; var size : Nat__58649523};
+type Map__386906547<K, V> = Map__670138087<K, V>;
+type Map__670138087<K, V> = Map__13625999<K, V>;
+type Nat__58649523 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__221338614 =
+  {
+    announcements :
+      Map__386906547<AnnouncementId__528233301, Announcement__862340731>;
+    applications :
+      Map__386906547<ApplicationId__667049859, Application__602343233>;
+    counters : Counters__298268926;
+    departments :
+      Map__386906547<DepartmentId__601640060, Department__439167630>;
+    positions : Map__386906547<PositionId__905036791, Position__62980021>;
+    sessions : Map__386906547<UserId__58594049, Session__274087167>;
+    settings : SettingsState__1009190747;
+    users : Map__386906547<DiscordId__538665335, User__959226641>
+  };
+type Node__430031793<K, V> =
+  {#internal : Internal__161573640<K, V>; #leaf : Leaf__1045638083<K, V>};
+type OldActor__419429242 = {};
+type PositionId__406149913 = Nat;
+type PositionId__905036791 = Nat;
+type PositionType__458193001 = {#contract; #paid; #unpaid};
+type PositionType__793693337 = {#contract; #paid; #unpaid};
+type Position__372672791 =
+  {
+    departmentId : DepartmentId__275990220;
+    description : Text;
+    id : PositionId__406149913;
+    open : Bool;
+    positionType : PositionType__458193001;
+    requirements : [Text];
+    title : Text
+  };
+type Position__62980021 =
+  {
+    departmentId : DepartmentId__601640060;
+    description : Text;
+    id : PositionId__905036791;
+    open : Bool;
+    positionType : PositionType__793693337;
+    requirements : [Text];
+    title : Text
+  };
+type Role__1023220475 =
+  {
+    #admin;
+    #applicant;
+    #blacklisted;
+    #dprtBlacklisted;
+    #dprtLead;
+    #dprtReviewer;
+    #reviewer
+  };
+type Role__522504829 =
+  {
+    #admin;
+    #applicant;
+    #blacklisted;
+    #dprtBlacklisted;
+    #dprtLead;
+    #dprtReviewer;
+    #reviewer
+  };
+type Session__274087167 =
+  {
+    discordId : DiscordId__538665335;
+    expiresAt : Timestamp__847320355;
+    userId : UserId__58594049;
+    username : Text
+  };
+type Session__71599859 =
+  {
+    discordId : DiscordId__964032398;
+    expiresAt : Timestamp__301639476;
+    userId : UserId__158757552;
+    username : Text
+  };
+type SettingsState__1009190747 =
+  {
+    var botToken : Text;
+    var clientId : Text;
+    var clientSecret : Text;
+    var guildId : Text;
+    var guildRequired : Bool
+  };
+type Timestamp__301639476 = Int;
+type Timestamp__847320355 = Int;
+type UserId__158757552 = Principal;
+type UserId__58594049 = Principal;
+type User__596837333 =
+  {
+    departments : [DepartmentId__275990220];
+    discordId : DiscordId__964032398;
+    id : UserId__158757552;
+    role : Role__1023220475;
+    username : Text
+  };
+type User__959226641 =
+  {
+    departments : [DepartmentId__601640060];
+    discordId : DiscordId__538665335;
+    id : UserId__58594049;
+    role : Role__522504829;
+    username : Text
+  };
+{
+  "20260825_000000" : (_old : OldActor__419429242) -> NewActor__221338614
+}
+actor  {
+  stable announcements :
+    {
+      var root :
+        Node__430031793<AnnouncementId__365153885, Announcement__160704614>;
+      var size : Nat__58649523
+    };
+  stable applications :
+    {
+      var root :
+        Node__430031793<ApplicationId__702901380, Application__678882009>;
+      var size : Nat__58649523
+    };
+  stable counters :
+    {
+      var nextAnnouncementId : Nat;
+      var nextApplicationId : Nat;
+      var nextDepartmentId : Nat;
+      var nextPositionId : Nat
+    };
+  stable departments :
+    {
+      var root :
+        Node__430031793<DepartmentId__275990220, Department__198760812>;
+      var size : Nat__58649523
+    };
+  stable positions :
+    {
+      var root : Node__430031793<PositionId__406149913, Position__372672791>;
+      var size : Nat__58649523
+    };
+  stable sessions :
+    {
+      var root : Node__430031793<UserId__158757552, Session__71599859>;
+      var size : Nat__58649523
+    };
+  stable settings :
+    {
+      var botToken : Text;
+      var clientId : Text;
+      var clientSecret : Text;
+      var guildId : Text;
+      var guildRequired : Bool
+    };
+  stable users :
+    {
+      var root : Node__430031793<DiscordId__964032398, User__596837333>;
+      var size : Nat__58649523
+    }
+};

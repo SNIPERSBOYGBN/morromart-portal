@@ -1,0 +1,20 @@
+{
+  "overview": "A Discord-login-gated job application portal where staff manage positions, departments, and applications through a tiered permission system, with the Discord bot sending DM updates.",
+  "features": [
+    "Sign in with your Discord account",
+    "Browse open positions and view job overviews",
+    "Submit applications to open positions",
+    "Manage departments, positions, and staff with tiered permissions",
+    "Review applications with status changes, feedback, and internal notes",
+    "Post site-wide announcement banners"
+  ],
+  "category": "productivity",
+  "tags": [
+    "applications",
+    "portal",
+    "discord",
+    "permissions",
+    "recruitment"
+  ],
+  "last_updated": "2026-08-25T11:24:01.610Z"
+}

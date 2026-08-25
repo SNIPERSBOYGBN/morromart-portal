@@ -1,0 +1,193 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserId = principal;
+type User = 
+ record {
+   departments: vec DepartmentId;
+   discordId: DiscordId;
+   id: UserId;
+   role: Role;
+   username: text;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: HttpRequestResult;
+ };
+type Timestamp = int;
+type Settings = 
+ record {
+   botToken: text;
+   clientId: text;
+   clientSecret: text;
+   guildId: text;
+   guildRequired: bool;
+ };
+type Session = 
+ record {
+   discordId: DiscordId;
+   expiresAt: Timestamp;
+   userId: UserId;
+   username: text;
+ };
+type Role = 
+ variant {
+   admin;
+   applicant;
+   blacklisted;
+   dprtBlacklisted;
+   dprtLead;
+   dprtReviewer;
+   reviewer;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type PositionType = 
+ variant {
+   contract;
+   paid;
+   unpaid;
+ };
+type PositionId = nat;
+type Position = 
+ record {
+   departmentId: DepartmentId;
+   description: text;
+   id: PositionId;
+   open: bool;
+   positionType: PositionType;
+   requirements: vec text;
+   title: text;
+ };
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type DiscordId = text;
+type DepartmentId = nat;
+type Department = 
+ record {
+   description: text;
+   id: DepartmentId;
+   name: text;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+type BlacklistScope = 
+ variant {
+   department;
+   full;
+ };
+type ApplicationStatus = 
+ variant {
+   accepted;
+   pendingReview;
+   rejected;
+   underReview;
+ };
+type ApplicationId = nat;
+type Application = 
+ record {
+   applicantDiscordId: DiscordId;
+   applicantId: UserId;
+   feedback: opt text;
+   id: ApplicationId;
+   internalNotes: opt text;
+   positionId: PositionId;
+   responses: vec text;
+   status: ApplicationStatus;
+   submittedAt: Timestamp;
+ };
+type AnnouncementType = 
+ variant {
+   error;
+   info;
+   other;
+   warning;
+ };
+type AnnouncementId = nat;
+type Announcement = 
+ record {
+   active: bool;
+   announcementType: AnnouncementType;
+   color: opt text;
+   createdAt: Timestamp;
+   icon: opt text;
+   id: AnnouncementId;
+   message: text;
+   title: text;
+ };
+service : {
+  addStaffMember: (discordId: DiscordId, username: text, role: Role,
+   departments: vec DepartmentId) -> (User);
+  blacklistApplicant: (applicationId: ApplicationId, scope: BlacklistScope,
+   reason: text) -> ();
+  changePermission: (userId: UserId, role: Role, departments:
+   vec DepartmentId) -> (User);
+  createDepartment: (name: text, description: text) -> (Department);
+  createPosition: (title: text, description: text, requirements: vec text,
+   positionType: PositionType, departmentId: DepartmentId) -> (Position);
+  deactivateAnnouncement: (id: AnnouncementId) -> ();
+  deleteDepartment: (id: DepartmentId) -> ();
+  discordLoginComplete: (code: text) -> (Session);
+  discordLoginStart: () -> (text);
+  execute: (qJson: text) -> (Result) query;
+  getApplication: (id: ApplicationId) -> (opt Application) query;
+  getCallerPermission: () -> (opt User) query;
+  getCurrentUser: () -> (opt Session) query;
+  getDepartment: (id: DepartmentId) -> (opt Department) query;
+  getPosition: (id: PositionId) -> (opt Position) query;
+  getSettings: () -> (Settings) query;
+  listAnnouncements: () -> (vec Announcement) query;
+  listApplications: () -> (vec Application) query;
+  listApplicationsForReview: () -> (vec Application) query;
+  listDepartments: () -> (vec Department) query;
+  listPositions: () -> (vec Position) query;
+  listStaff: () -> (vec User) query;
+  logout: () -> ();
+  openApplicationForReview: (id: ApplicationId) -> (Application);
+  postAnnouncement: (title: text, message: text, announcementType:
+   AnnouncementType, color: opt text, icon: opt text) -> (Announcement);
+  schema: () -> (text) query;
+  sendBotDm: (discordId: DiscordId, message: text) -> ();
+  setApplicationStatus: (id: ApplicationId, status: ApplicationStatus,
+   feedback: opt text, internalNotes: opt text) -> (Application);
+  setGuildId: (guildId: text) -> ();
+  setGuildRequired: (required: bool) -> ();
+  setPositionOpen: (id: PositionId, open: bool) -> (Position);
+  submitApplication: (positionId: PositionId, responses: vec text) ->
+   (Application);
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  updateDepartment: (id: DepartmentId, name: text, description: text) ->
+   (Department);
+  updatePosition: (id: PositionId, title: text, description: text,
+   requirements: vec text, positionType: PositionType, departmentId:
+   DepartmentId) -> (Position);
+  updateSettings: (newSettings: Settings) -> ();
+}
